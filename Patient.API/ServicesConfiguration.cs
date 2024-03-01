@@ -9,6 +9,7 @@ using System.Reflection;
 using Patient.Application;
 using Patient.Persistence;
 using Microsoft.AspNetCore.Authentication.Certificate;
+using Microsoft.EntityFrameworkCore;
 
 namespace Patient.API
 {
@@ -73,6 +74,16 @@ namespace Patient.API
             });
 
             return services;
+        }
+
+
+
+        public static void MigrationInitialisation(WebApplication app)
+        {
+            using (var serviceScope = app.Services.CreateScope())
+            {
+                serviceScope.ServiceProvider.GetService<PatientDbContext>().Database.Migrate();
+            }
         }
     }
 }

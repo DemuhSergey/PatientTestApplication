@@ -6,16 +6,11 @@ namespace PatientGenerator.Services
     internal class PatientService : IPatientService
     {
         private readonly IRestfullService<Patient> restService;
-        private readonly string controllerPath = "patient";
+        private readonly string controllerPath = "/patients";
         public PatientService(
             IRestfullService<Patient> restFullPatientService) {
 
             restService = restFullPatientService;
-        }
-        public async Task<bool> HasExists()
-        {
-            var list = await restService.GetAll(this.controllerPath);
-            return list.Any();
         }
 
         public Task<Guid[]> Insert(IEnumerable<Patient> list) =>

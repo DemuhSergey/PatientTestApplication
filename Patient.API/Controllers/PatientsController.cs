@@ -37,7 +37,7 @@ namespace Patient.API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(Guid), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Guid), (int)HttpStatusCode.Created)]
         [ProducesResponseType(typeof(ApiValidationException), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Post([FromBody] CreatePatientCommand command)
         {

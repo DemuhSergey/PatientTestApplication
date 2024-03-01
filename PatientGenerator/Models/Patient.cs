@@ -1,14 +1,26 @@
 ﻿using Bogus;
+using System.Text.Json.Serialization;
 
 namespace PatientGenerator.Models
 {
     internal class Patient
     {
+        [JsonPropertyName("use")]
         public string? Use { get; set; }
+
+        [JsonPropertyName("family")]
         public string Family { get; set; }
+
+        [JsonPropertyName("given")]
         public string[] Given { get; set; }
+
+        [JsonPropertyName("gender")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public Gender Gender { get; set; }
+
+        [JsonPropertyName("birthDate")]
         public DateTime BirthDate { get; set; }
+
 
         internal static Faker<Patient> FakeData
         {

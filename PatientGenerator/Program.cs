@@ -2,31 +2,28 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using PatientGenerator.Exceptions;
 using PatientGenerator.Models;
 using PatientGenerator.Services;
 using PatientGenerator.Services.Abstractions;
-using System;
 
 var host = GetHost(args);
 var fakeData = Patient.FakeData.Generate(100).ToList();
-var logger = host.Services.GetService<ILoggerFactory>();
+//var logger = host.Services.GetService<ILoggerFactory>();
 
 try
 {
     Console.WriteLine("Started!!!");
     var service = host.Services.GetRequiredService<IPatientService>();
+    
     var ids = await service.Insert(fakeData);
 
-    for (int i = 0; i < ids.Count(); i++)
-    {
-        var counter = i++;
-        Console.WriteLine($"{counter}){fakeData[i].Family} -- inserted");
-    }
     Console.WriteLine("Completed!!!");
 } 
-catch (Exception ex)
+catch (PatientGeneratorException ex)
 {
-    Console.WriteLine(ex);
+    //TODO: Add logger
+    Console.WriteLine($"{ex.Message}");
 }
 
 static IHost GetHost(string[] args) =>
@@ -35,8 +32,7 @@ static IHost GetHost(string[] args) =>
     {
         services.AddLogging(loggerBuilder => {
             loggerBuilder.ClearProviders();
-            loggerBuilder.AddConsole()
-                .AddFilter(level => level >= LogLevel.Error);
+            loggerBuilder.AddConsole();
         });
         services.AddTransient<IRestfullService<Patient>, RestfullService<Patient>>();
         services.AddTransient<IPatientService, PatientService>();
