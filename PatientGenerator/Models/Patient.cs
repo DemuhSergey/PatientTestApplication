@@ -28,7 +28,11 @@ namespace PatientGenerator.Models
                 .RuleFor(p => p.Use, f => f.Name.JobTitle())
                 .RuleFor(p => p.Family, f => f.Name.LastName())
                 .RuleFor(p => p.Given, f => new string[] { f.Name.FirstName(), f.Name.LastName() })
-                .RuleFor(p => p.BirthDate, f => f.Date.Past(18))
+                .RuleFor(p => p.BirthDate, f => {
+                    var pastDateTime = f.Date.PastOffset(70, DateTime.Now.AddYears(-18));
+                    var result = DateTime.Parse(pastDateTime.ToString("yyyy-MM-ddTHH:mm:ss"));
+                    return result;
+                })
                 .RuleFor(p => p.Gender, f => f.PickRandom<Gender>());
         }
     }

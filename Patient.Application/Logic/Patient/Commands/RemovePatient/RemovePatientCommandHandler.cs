@@ -15,16 +15,16 @@ namespace Patient.Application.Logic.Patient.Commands.RemovePatient
 
         public override async Task<Unit> Handle(RemovePatientCommand request, CancellationToken cancellationToken)
         {
-            var service = await this.dbContext.Patients
+            var patient = await this.dbContext.Patients
                .Where(x => x.Id == request.Id)
                .FirstOrDefaultAsync(cancellationToken);
 
-            if (service is null)
+            if (patient is null)
             {
                 throw new NotFoundException(nameof(Domain.Entities.Patient), request.Id);
             }
 
-            this.dbContext.Patients.Remove(service);
+            this.dbContext.Patients.Remove(patient);
             await this.dbContext.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;

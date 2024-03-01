@@ -6,6 +6,7 @@ using PatientGenerator.Exceptions;
 using PatientGenerator.Models;
 using PatientGenerator.Services;
 using PatientGenerator.Services.Abstractions;
+using System.Globalization;
 
 var host = GetHost(args);
 var fakeData = Patient.FakeData.Generate(100).ToList();
@@ -15,7 +16,7 @@ try
 {
     Console.WriteLine("Started!!!");
     var service = host.Services.GetRequiredService<IPatientService>();
-    
+
     var ids = await service.Insert(fakeData);
 
     Console.WriteLine("Completed!!!");

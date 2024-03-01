@@ -10,6 +10,7 @@ using Patient.Application;
 using Patient.Persistence;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.EntityFrameworkCore;
+using Patient.Application.Common.Constants;
 
 namespace Patient.API
 {
@@ -44,6 +45,7 @@ namespace Patient.API
             {
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                 options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                options.SerializerSettings.DateFormatString = ApplicationConstants.DateTimeFormatConst;
             });
 
             services.AddEndpointsApiExplorer();
