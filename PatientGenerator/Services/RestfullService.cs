@@ -9,7 +9,7 @@ namespace PatientGenerator.Services
     internal class RestfullService<T> : IRestfullService<T>
     {
         //TODO: Move to appsetings.json
-        public readonly string baseRoute = "https://localhost:44318";
+        public readonly string baseRoute = "http://localhost:8080";
 
         public async Task<Guid> Post(string route, T data)
         {

@@ -16,18 +16,8 @@ namespace Patient.Persistence
                 var databaseSettings = serviceProvider.GetService<IOptions<DatabaseSettings>>()!.Value;
                 var configuration = serviceProvider.GetService<IConfiguration>();
 
-                //var connectionString = string.Format(databaseSettings.ConnectionString,
-                //    configuration["DatabaseServer"] ?? string.Empty,
-                //    configuration["DatabasePort"] ?? string.Empty,
-                //    configuration["DatabaseName"] ?? string.Empty,
-                //    configuration["DatabaseUserId"] ?? string.Empty,
-                //    configuration["DatabasePassword"] ?? string.Empty);
-
                 dbContextOptionsBuilder.UseSqlServer(databaseSettings.ConnectionString, sqlServerAction =>
                 {
-                    //sqlServerAction.CommandTimeout(databaseSettings.CommandTimeout);
-                    //sqlServerAction.EnableRetryOnFailure(databaseSettings.MaxRetryCount);
-
                     sqlServerAction.MigrationsAssembly(typeof(PatientDbContext).Assembly.FullName);
                 });
 

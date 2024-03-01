@@ -1,14 +1,10 @@
 ﻿using FluentValidation.Results;
+using Patient.Application.Common.Constants;
 
 namespace Patient.Application.Common.Exceptions
 {
     public class ApplicationValidationException : Exception
     {
-        //TODO: Move to consts project
-        public const string UnrecognizedErrorCode = "EC999999";
-        public const string UnrecognizedErrorCodeMessage = "An error with unrecognized validation code occured";
-
-
         public IDictionary<string, ValidationError[]> Errors
         {
             get;
@@ -20,8 +16,8 @@ namespace Patient.Application.Common.Exceptions
                 .GroupBy(e => e.PropertyName)
                 .ToDictionary(failureGroup => failureGroup.Key, failureGroup =>
                                 failureGroup.Select(x =>
-                                    new ValidationError(x.ErrorCode ?? UnrecognizedErrorCode,
-                                        x.ErrorMessage ?? UnrecognizedErrorCode)).ToArray());
+                                    new ValidationError(x.ErrorCode ?? ValidationErrorCodes.UnrecognizedErrorCode,
+                                        x.ErrorMessage ?? ValidationErrorMessages.UnrecognizedErrorCode)).ToArray());
         }
 
         public ApplicationValidationException(string propertyName, ValidationError validationError)
@@ -42,8 +38,8 @@ namespace Patient.Application.Common.Exceptions
                 propertyName,
                 new ValidationError[]
                     {
-                        new ValidationError(code ?? UnrecognizedErrorCode,
-                                            message ?? UnrecognizedErrorCode)
+                        new ValidationError(code ?? ValidationErrorCodes.UnrecognizedErrorCode,
+                                            message ?? ValidationErrorMessages.UnrecognizedErrorCode)
                     }
             }
         };
